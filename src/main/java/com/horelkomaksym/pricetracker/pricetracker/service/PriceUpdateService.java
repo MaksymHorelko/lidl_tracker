@@ -7,6 +7,7 @@ import com.horelkomaksym.pricetracker.pricetracker.parser.ParserOrchestrator;
 import com.horelkomaksym.pricetracker.pricetracker.service.dao.ProductService;
 import com.horelkomaksym.pricetracker.pricetracker.service.dao.SubscriptionService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class PriceUpdateService {
@@ -29,8 +31,7 @@ public class PriceUpdateService {
                     try {
                         return parserOrchestrator.getPrice(product.getUrl());
                     } catch (Exception e) {
-                        System.err.println("Ошибка при парсинге URL: " + product.getUrl());
-                        e.printStackTrace();
+                        log.error("Parsing error for {}: {}", product.getUrl(), e.getMessage());
                         return null;
                     }
                 }).thenAccept(newPrice -> {

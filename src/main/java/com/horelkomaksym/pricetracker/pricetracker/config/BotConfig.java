@@ -1,6 +1,7 @@
 package com.horelkomaksym.pricetracker.pricetracker.config;
 
 import com.horelkomaksym.pricetracker.pricetracker.bot.Bot;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Configuration
 public class BotConfig {
 
@@ -44,7 +46,7 @@ public class BotConfig {
         try {
             telegramClient().execute(new SetMyCommands(listOfCommands, new BotCommandScopeDefault(), null));
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            log.error("BotConfig error: {}", e.getMessage());
         }
     }
 }

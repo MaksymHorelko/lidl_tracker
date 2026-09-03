@@ -2,6 +2,7 @@ package com.horelkomaksym.pricetracker.pricetracker.bot;
 import com.horelkomaksym.pricetracker.pricetracker.handler.UpdateHandler;
 import com.horelkomaksym.pricetracker.pricetracker.notification.NotificationService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsumer;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -12,6 +13,7 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 import java.math.BigDecimal;
 import java.util.List;
 
+@Slf4j
 @AllArgsConstructor
 @Component
 public class Bot implements LongPollingUpdateConsumer, NotificationService {
@@ -34,8 +36,7 @@ public class Bot implements LongPollingUpdateConsumer, NotificationService {
         try {
             telegramClient.execute(message);
         } catch (TelegramApiException e) {
-            System.err.println("Error: " + e.getMessage());
-            e.printStackTrace();
+            log.error("Error: {}", e.getMessage());
         }
     }
 
